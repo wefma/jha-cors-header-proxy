@@ -6,6 +6,10 @@ export default {
 
     const url = new URL(request.url);
 
+    if (url.pathname !== "/jha-scores.json") {
+      return new Response("Not Found", { status: 404 });
+    }
+
     // CORS preflight
     if (request.method === "OPTIONS") {
       // Originが一致する場合のみCORS応答（不要なら '*' ではなく拒否）
