@@ -1,8 +1,8 @@
 export default {
   async fetch(request: Request): Promise<Response> {
     const ALLOWED_ORIGIN = "https://jha-summary.wefma.net";
-
     const TARGET_URL = "https://jha-summary-api.wefma.net/jha-scores.json";
+    const CLIENT_CACHE_TTL_SECONDS = 60 * 60 * 12;
 
     const url = new URL(request.url);
 
@@ -58,6 +58,8 @@ export default {
     resHeaders.set("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
     resHeaders.set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS");
     resHeaders.set("Access-Control-Max-Age", "86400");
+    resHeaders.set("Cache-Control", `public, max-age=${CLIENT_CACHE_TTL_SECONDS}`);
+    resHeaders.delete("Expires");
     resHeaders.set("Vary", "Origin");
 
     // セキュリティ的に不要な場合は cookie 系は落とす（念のため）
